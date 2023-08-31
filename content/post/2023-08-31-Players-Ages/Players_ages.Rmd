@@ -3,11 +3,21 @@ title: "Are older players generally disadvantaged at big brother?"
 author: "JLB"
 date: "2023-08-31"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
-```{r}
-knitr::opts_chunk$set(echo=FALSE,warning=FALSE,message=FALSE)
+<style>
+p.caption {
+  font-size: 0.6em;
+}
+</style>
 
+```{r,echo=FALSE}
+knitr::opts_chunk$set(echo=FALSE,warning=FALSE,message=FALSE)
+```
+
+```{r}
 # Load packages
 
 library(rvest)
@@ -17,8 +27,10 @@ library(tidyverse)
 library(janitor)
 ```
 
-# Scrape Data from Wikipedia 
+
 ```{r}
+# Scrape Data from Wikipedia 
+
 url <- "https://en.wikipedia.org/wiki/List_of_Big_Brother_(American_TV_series)_houseguests"
 
 url_bow <- polite::bow(url) # Take everything from the link above
@@ -35,12 +47,7 @@ rm(url_bow)
 ```
 
 # Visualize the spread of player ages across all seasons as a histogram
-
-- The distribution of players indicates that most BBUS houseguests are in their mid-late 20's during the filming of their seasons. 
-- The distribution of BBUS houseguests' ages is "right-skewed", indicating that the mean overestimates central tendancy (and the median is a better measure ofthe average houseguest age in this case). 
-    + The mean age of BBUS houseguests is 29.13 years, whereas the median player age is 27 (plotted as vertical dashed lines below). 
-
-```{r}
+```{r,fig.cap="Data plotted as the number of houseguets (y-axis) that fall in to each category. Each bar representes 2 years of age. The mean and median player ages are indicated by couloured vertical dashed lines."}
 mean_age <- mean(data$age_i) # Calculate mean player age
 median_age <- median(data$age_i) # Calculate median player age
 
@@ -55,20 +62,28 @@ ages_histogram <- data %>%
     y="Number of Houseguests",
     title="Histogram of All BBUS Houseguests' Ages"
   )+
-  geom_vline(xintercept = mean_age,linetype="dashed",colour="#800020")+
-  geom_vline(xintercept = median_age,linetype="dashed", colour="lightblue")+
-  geom_text(aes(x=60,y=60,label=str_c("Median Player Age = ",round(median_age,2 ))),colour="lightblue")+
-  geom_text(aes(x=60,y=55,label=str_c("Mean Player Age = ", round(mean_age,2))),colour="#800020")
+  geom_vline(xintercept = mean_age,linetype="dashed",colour="lightblue")+
+  geom_vline(xintercept = median_age,linetype="dashed", colour="#800020")+
+  geom_text(aes(x=60,y=60,label=str_c("Median Player Age = ",round(median_age,2 ))),colour="#800020")+
+  geom_text(aes(x=60,y=55,label=str_c("Mean Player Age = ", round(mean_age,2))),colour="lightblue")
 
 ages_histogram # Print out the result
 ```
 
-# Make Graph of player ages 
-```{r}
+## Interpretations:
+
+- Visual inspection of the distribution of players indicates that most BBUS houseguests are in their mid-late 20's during the filming of their seasons. 
+- The distribution of BBUS houseguests' ages is "right-skewed", indicating that the mean overestimates central tendency (and the median is a better measure of the average houseguest age in this case). 
+    + The mean age of BBUS houseguests is 29.13 years, whereas the median player age is 27 (plotted as vertical dashed lines above). 
+
+# Graph Houseguests' Ages Each Season
+
+```{r,fig.cap='Data plotted as mean value +/- SEM. The red line represents the median player age of 27 years.'}
 # create a column to represent winners:
 data$winner <- as.factor((ifelse((data$finish == "1st"), 1, 0)))
 
 # Crease bar graph
+
 a <- data %>%
   select(c("season","name","age_i")) %>%
   group_by(season) %>%
@@ -89,55 +104,29 @@ a <- data %>%
        y="Houseguests' Ages (years)",
        title="Average Age of Players on BBUS each Season")
 
-mean_age <- mean(data$age_i) # Calculate mean player age
+median_age <- 27 # Calculate median player age
 
 # Add individual points and annotations.
 mean_ages_graph <- a + 
   geom_jitter(data=data,aes(x=season, y=age_i,colour=winner),width=0.025,size=3,alpha=0.4)+
   scale_colour_manual(values=c("black","green"))+
-  geom_hline(yintercept = mean_age,size=0.5,colour="#800020")+
-  geom_text(x=18,y=80,label="Mean player age = 29.13 years",colour="#800020")+
+  geom_hline(yintercept = median_age,size=0.5,colour="#800020")+
+  geom_text(x=18,y=80,label="Median player age = 27 years",colour="#800020")+
   geom_text(x=18,y=75,label="Winners plotted as green points", colour="green")+
   theme(legend.position="none")
 
 mean_ages_graph # Print out the result
 ```
 
-# Graph mean age of the winners / losers 
-```{r}
-# 
-a <- data %>%
-  na.omit() %>%
-  group_by(winner) %>%
-  summarise(
-    n=n(),
-    mean=mean(age_i),
-    sd=sd(age_i)
-  ) %>% mutate (se = sd / sqrt(n-1)) %>%
-  ggplot(aes(x=winner,y=mean,colour=winner,fill=winner))+
-  geom_bar(stat="identity",alpha=0.2)+
-  geom_errorbar(aes(x=winner,ymin=mean-se,ymax=mean+se),width=0.25)+
-  geom_text(aes(x=winner,y=4,label=round(mean,2)))+
-  scale_colour_manual(values=c("black","green"))+
-  scale_fill_manual(values=c("black","green"))+
-  theme_classic()+
-  theme(legend.position = "none")+
-  theme(plot.title = element_text(hjust=0.5))+
-  scale_x_discrete(labels=c("BBUS \nLosers","BBUS \nWinners"))+
-  labs(x="",
-       y="Houseguests' Ages (years)",
-       title="Winners are significantly younger than the average player")
-  
-winner_ages <- a + 
-  geom_jitter(data=data, aes(x=winner,y=age_i),size=3,alpha=0.1,width=0.15)
-  
-winner_ages
+## Interpretations 
 
-t.test(data$age_i~data$winner, var.equal=FALSE)
-```
+- The average age has not been changing systematically across the 25 seasons of BBus. 
+- The "right skew" in the histogram above is evident most seasons: 
+    + The majority of houseguests are clustered in their 20's with 2-3 players > 35 years each season. 
+    
 
 # Graph the linear relationship between player age and place on their season. 
-```{r}
+```{r, fig.cap="Data points represet individual players aggregated acorss all season of BBUS. The red line is the linear line of best fit that represents the relationship between players' ages and place in BBUS."}
 data$finish <- factor(data$finish,
                       levels = c("1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th","13th","14th","15th","16th","17th","18th"))
 
@@ -150,8 +139,9 @@ data$finish_num <- finish
 
 ages_linear <- data %>%
   na.omit()%>%
-  ggplot(aes(x=finish_num,y=age_i))+
+  ggplot(aes(x=finish_num,y=age_i,colour=winner))+
   geom_point(size=4,alpha=0.5)+
+  scale_colour_manual(values=c("black","green"))+
   geom_smooth(method="lm",colour="#800020",fill="#800020")+
   theme_classic()+
   theme(plot.title=element_text(hjust = 0.5))+
@@ -160,7 +150,8 @@ ages_linear <- data %>%
     x="Place on their seasons of BBUS",
     y="Houseguests' Ages (years)",
     title="No Linear Relationship Between Player Age and Week of Eviction",
-    subtitle="Player age accounts for <1% of the variability in eviction week."
+    subtitle="Player age accounts for <1% of the variability in eviction week.",
+    colour=NULL
   )+
   scale_x_reverse(breaks=c(1:17))
 
@@ -169,3 +160,11 @@ ages_linear
 a <- lm(finish_num~age_i,data=data)
 summary(a)
 ```
+
+# Interpretations
+
+- Age of player is not a significant linear predictor of which week they will be evicted from the BBUS house. 
+- Player's age accounted for less than 1% of the variability observed in eviction week (F(1,352) = 0.05, *p* = 0.8))
+    + Indicating that 
+
+

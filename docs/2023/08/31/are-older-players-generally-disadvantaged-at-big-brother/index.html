@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.115.2">
+
+
+<title>Are older players generally disadvantaged at big brother? - A Hugo website</title>
+<meta property="og:title" content="Are older players generally disadvantaged at big brother? - A Hugo website">
+
+
+  <link href='../../../../favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="../../../../css/fonts.css" media="all">
+<link rel="stylesheet" href="../../../../css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="../../../../" class="nav-logo">
+    <img src="../../../../images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="../../../../about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">Are older players generally disadvantaged at big brother?</h1>
+
+    
+    <span class="article-date">2023-08-31</span>
+    
+
+    <div class="article-content">
+      
+      
+
+
+<style>
+p.caption {
+  font-size: 0.6em;
+}
+</style>
+<div id="visualize-the-spread-of-player-ages-across-all-seasons-as-a-histogram" class="section level1">
+<h1>Visualize the spread of player ages across all seasons as a histogram</h1>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
+<img src="../../../../post/2023-08-31-Players-Ages/Players_ages_files/figure-html/unnamed-chunk-4-1.png" alt="Data plotted as the number of houseguets (y-axis) that fall in to each category. Each bar representes 2 years of age. The mean and median player ages are indicated by couloured vertical dashed lines." width="672" />
+<p class="caption">
+Figure 1: Data plotted as the number of houseguets (y-axis) that fall in to each category. Each bar representes 2 years of age. The mean and median player ages are indicated by couloured vertical dashed lines.
+</p>
+</div>
+<div id="interpretations" class="section level2">
+<h2>Interpretations:</h2>
+<ul>
+<li>Visual inspection of the distribution of players indicates that most BBUS houseguests are in their mid-late 20’s during the filming of their seasons.</li>
+<li>The distribution of BBUS houseguests’ ages is “right-skewed”, indicating that the mean overestimates central tendency (and the median is a better measure of the average houseguest age in this case).
+<ul>
+<li>The mean age of BBUS houseguests is 29.13 years, whereas the median player age is 27 (plotted as vertical dashed lines above).</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="graph-houseguests-ages-each-season" class="section level1">
+<h1>Graph Houseguests’ Ages Each Season</h1>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
+<img src="../../../../post/2023-08-31-Players-Ages/Players_ages_files/figure-html/unnamed-chunk-5-1.png" alt="Data plotted as mean value +/- SEM. The red line represents the median player age of 27 years." width="672" />
+<p class="caption">
+Figure 2: Data plotted as mean value +/- SEM. The red line represents the median player age of 27 years.
+</p>
+</div>
+<div id="interpretatins" class="section level2">
+<h2>Interpretatins</h2>
+<ul>
+<li>The average age has not been changing systematically across the 25 seasons of BBus.</li>
+<li>The “right skew” in the histogram above is evident most seasons:
+<ul>
+<li>The majority of houseguests are clustered in their 20’s with 2-3 players &gt; 35 years each season.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="graph-the-linear-relationship-between-player-age-and-place-on-their-season." class="section level1">
+<h1>Graph the linear relationship between player age and place on their season.</h1>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-6"></span>
+<img src="../../../../post/2023-08-31-Players-Ages/Players_ages_files/figure-html/unnamed-chunk-6-1.png" alt="Data points represet individual players aggregated acorss all season of BBUS. The red line represents the linear line of best fit that represents the relationship between players' ages and place in BBUS." width="672" />
+<p class="caption">
+Figure 3: Data points represet individual players aggregated acorss all season of BBUS. The red line represents the linear line of best fit that represents the relationship between players’ ages and place in BBUS.
+</p>
+</div>
+<pre><code>## 
+## Call:
+## lm(formula = finish_num ~ age_i, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.0522 -3.9723 -0.0163  3.9638  9.0197 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  8.219939   1.001822   8.205 4.39e-15 ***
+## age_i       -0.007988   0.033633  -0.238    0.812    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.44 on 352 degrees of freedom
+##   (13 observations deleted due to missingness)
+## Multiple R-squared:  0.0001602,	Adjusted R-squared:  -0.00268 
+## F-statistic: 0.05641 on 1 and 352 DF,  p-value: 0.8124</code></pre>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="../../../../images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
