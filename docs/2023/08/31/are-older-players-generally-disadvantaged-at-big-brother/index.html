@@ -22,11 +22,6 @@
 
 
 
-
-<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
-
-
-
 <link rel="stylesheet" href="../../../../css/fonts.css" media="all">
 <link rel="stylesheet" href="../../../../css/main.css" media="all">
 
@@ -108,8 +103,8 @@ Figure 1: Data plotted as the number of houseguets (y-axis) that fall in to each
 Figure 2: Data plotted as mean value +/- SEM. The red line represents the median player age of 27 years.
 </p>
 </div>
-<div id="interpretatins" class="section level2">
-<h2>Interpretatins</h2>
+<div id="interpretations-1" class="section level2">
+<h2>Interpretations:</h2>
 <ul>
 <li>The average age has not been changing systematically across the 25 seasons of BBus.</li>
 <li>The “right skew” in the histogram above is evident most seasons:
@@ -122,30 +117,22 @@ Figure 2: Data plotted as mean value +/- SEM. The red line represents the median
 <div id="graph-the-linear-relationship-between-player-age-and-place-on-their-season." class="section level1">
 <h1>Graph the linear relationship between player age and place on their season.</h1>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-6"></span>
-<img src="../../../../post/2023-08-31-Players-Ages/Players_ages_files/figure-html/unnamed-chunk-6-1.png" alt="Data points represet individual players aggregated acorss all season of BBUS. The red line represents the linear line of best fit that represents the relationship between players' ages and place in BBUS." width="672" />
+<img src="../../../../post/2023-08-31-Players-Ages/Players_ages_files/figure-html/unnamed-chunk-6-1.png" alt="Data points represet individual players aggregated acorss all season of BBUS. The red line is the linear line of best fit that represents the relationship between players' ages and place in BBUS." width="672" />
 <p class="caption">
-Figure 3: Data points represet individual players aggregated acorss all season of BBUS. The red line represents the linear line of best fit that represents the relationship between players’ ages and place in BBUS.
+Figure 3: Data points represet individual players aggregated acorss all season of BBUS. The red line is the linear line of best fit that represents the relationship between players’ ages and place in BBUS.
 </p>
 </div>
-<pre><code>## 
-## Call:
-## lm(formula = finish_num ~ age_i, data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -7.0522 -3.9723 -0.0163  3.9638  9.0197 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  8.219939   1.001822   8.205 4.39e-15 ***
-## age_i       -0.007988   0.033633  -0.238    0.812    
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 4.44 on 352 degrees of freedom
-##   (13 observations deleted due to missingness)
-## Multiple R-squared:  0.0001602,	Adjusted R-squared:  -0.00268 
-## F-statistic: 0.05641 on 1 and 352 DF,  p-value: 0.8124</code></pre>
+</div>
+<div id="interpretations-2" class="section level1">
+<h1>Interpretations:</h1>
+<ul>
+<li>Age of player is not a significant linear predictor of which week they will be evicted from the BBUS house.</li>
+<li>Player’s age accounted for less than 1% of the variability observed in eviction week (F(1,352) = 0.05, <em>p</em> = 0.8))</li>
+</ul>
+<div id="the-slope-of-the-red-line-is-not-singificantly-different-than-0-indicating-that-although-few-older-players-have-won-they-do-not-get-evicted-earlier-than-younger-players." class="section level4">
+<h4>The slope of the red line is not singificantly different than 0, indicating that although few older players have won, they do not get evicted earlier than younger players.</h4>
+<p><img src="https://media.tenor.com/UTRlCc3jmJQAAAAC/hisam-bb25.gif" /></p>
+</div>
 </div>
 
     </div>
@@ -167,18 +154,6 @@ Figure 3: Data points represet individual players aggregated acorss all season o
 
     </div>
     
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
-<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
-
-
 
     
 

@@ -118,7 +118,7 @@ mean_ages_graph <- a +
 mean_ages_graph # Print out the result
 ```
 
-## Interpretations 
+## Interpretations:
 
 - The average age has not been changing systematically across the 25 seasons of BBus. 
 - The "right skew" in the histogram above is evident most seasons: 
@@ -146,6 +146,7 @@ ages_linear <- data %>%
   theme_classic()+
   theme(plot.title=element_text(hjust = 0.5))+
   theme(plot.subtitle=element_text(hjust=0.5))+
+  theme(legend.position = "none")+
   labs(
     x="Place on their seasons of BBUS",
     y="Houseguests' Ages (years)",
@@ -156,15 +157,20 @@ ages_linear <- data %>%
   scale_x_reverse(breaks=c(1:17))
 
 ages_linear
+```
 
+```{r,include=FALSE}
 a <- lm(finish_num~age_i,data=data)
 summary(a)
 ```
 
-# Interpretations
+
+# Interpretations:
 
 - Age of player is not a significant linear predictor of which week they will be evicted from the BBUS house. 
 - Player's age accounted for less than 1% of the variability observed in eviction week (F(1,352) = 0.05, *p* = 0.8))
-    + Indicating that 
 
+#### The slope of the red line is not singificantly different than 0, indicating that although few older players have won, they do not get evicted earlier than younger players. 
+
+![](https://media.tenor.com/UTRlCc3jmJQAAAAC/hisam-bb25.gif)
 
