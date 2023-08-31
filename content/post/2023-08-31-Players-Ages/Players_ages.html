@@ -1,0 +1,93 @@
+---
+title: "Are older players generally disadvantaged at big brother?"
+author: "JLB"
+date: "2023-08-31"
+output: html_document
+---
+
+
+
+<pre class="r"><code>knitr::opts_chunk$set(echo=FALSE,warning=FALSE,message=FALSE)
+
+# Load packages
+
+library(rvest)
+library(polite)</code></pre>
+<pre><code>## Warning: package &#39;polite&#39; was built under R version 4.3.1</code></pre>
+<pre class="r"><code>library(httr)
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.2     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.1     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter()         masks stats::filter()
+## ✖ readr::guess_encoding() masks rvest::guess_encoding()
+## ✖ dplyr::lag()            masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(janitor)</code></pre>
+<pre><code>## Warning: package &#39;janitor&#39; was built under R version 4.3.1</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;
+## 
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<div id="scrape-data-from-wikipedia" class="section level1">
+<h1>Scrape Data from Wikipedia</h1>
+</div>
+<div id="visualize-the-spread-of-player-ages-across-all-seasons-as-a-histogram" class="section level1">
+<h1>Visualize the spread of player ages across all seasons as a histogram</h1>
+<ul>
+<li>The distribution of players indicates that most BBUS houseguests are in their mid-late 20’s during the filming of their seasons.</li>
+<li>The distribution of BBUS houseguests’ ages is “right-skewed”, indicating that the mean overestimates central tendancy (and the median is a better measure ofthe average houseguest age in this case).
+<ul>
+<li>The mean age of BBUS houseguests is 29.13 years, whereas the median player age is 27 (plotted as vertical dashed lines below).</li>
+</ul></li>
+</ul>
+<p><img src="/post/2023-08-31-Players-Ages/Players_ages_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="make-graph-of-player-ages" class="section level1">
+<h1>Make Graph of player ages</h1>
+<p><img src="/post/2023-08-31-Players-Ages/Players_ages_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="graph-mean-age-of-the-winners-losers" class="section level1">
+<h1>Graph mean age of the winners / losers</h1>
+<p><img src="/post/2023-08-31-Players-Ages/Players_ages_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre><code>## 
+## 	Welch Two Sample t-test
+## 
+## data:  data$age_i by data$winner
+## t = 2.4828, df = 30.569, p-value = 0.01874
+## alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+## 95 percent confidence interval:
+##  0.4859361 4.9713039
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        29.31195        26.58333</code></pre>
+</div>
+<div id="graph-the-linear-relationship-between-player-age-and-place-on-their-season." class="section level1">
+<h1>Graph the linear relationship between player age and place on their season.</h1>
+<p><img src="/post/2023-08-31-Players-Ages/Players_ages_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre><code>## 
+## Call:
+## lm(formula = finish_num ~ age_i, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.0522 -3.9723 -0.0163  3.9638  9.0197 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  8.219939   1.001822   8.205 4.39e-15 ***
+## age_i       -0.007988   0.033633  -0.238    0.812    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.44 on 352 degrees of freedom
+##   (13 observations deleted due to missingness)
+## Multiple R-squared:  0.0001602,	Adjusted R-squared:  -0.00268 
+## F-statistic: 0.05641 on 1 and 352 DF,  p-value: 0.8124</code></pre>
+</div>
