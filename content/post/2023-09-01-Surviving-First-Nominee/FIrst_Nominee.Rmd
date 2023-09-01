@@ -1,9 +1,17 @@
 ---
-title: "How long does the surviving nominee(s) from week #1 survive in the game?"
+title: "How long does the surviving week 1 nominee last in the game?"
 author: "JLB"
 date: "2023-08-28"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
+
+<style>
+p.caption {
+  font-size: 0.6em;
+}
+</style>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,warning=FALSE,message=FALSE)
@@ -22,8 +30,8 @@ data$Sex <- as.factor(data$Sex)
 ```
 
 # Graph how far each surviving first week nominee made in on their season of BBUS: 
-```{r}
-ggplot(data, aes(x=Place,y=Season,colour=Sex))+
+```{r, fig.cap=""}
+a <- ggplot(data, aes(x=Place,y=Season,colour=Sex))+
   geom_segment(aes(x=Place,xend=Number,y=Season,yend=Season),size=2,colour="#C7D0D7")+
   geom_point(size=5,alpha=0.5,alpha=0.5)+
   scale_colour_manual(values=c("#8B5B6E","#95A7B6"))+
@@ -40,6 +48,58 @@ ggplot(data, aes(x=Place,y=Season,colour=Sex))+
     y="Seasons of BBUS",
     title="How Long Does the Surviving Nominee from Week 1 Last?"
   )
+
+a
+```
+
+# Plot number of male vs female surviving week 1 nominees:
+```{r}
+data %>%
+  group_by(Sex) %>%
+  summarise(n=n()) %>%
+  ggplot(aes(x=Sex,y=n,colour=Sex,fill=Sex))+
+  geom_bar(stat="identity",alpha=0.2)+
+  geom_text(aes(x=Sex,y=1,label=n))+
+  scale_colour_manual(values=c("#8B5B6E","#95A7B6"))+
+  scale_fill_manual(values=c("#8B5B6E","#95A7B6"))+
+  theme_classic()+
+  theme(legend.position = "none")+
+  theme(plot.title=element_text(hjust=0.5))+
+  theme(plot.subtitle=element_text(hjust=0.5))+
+  scale_x_discrete(labels=c("Female","Male"))+
+  labs(x="",
+       y="Number of Surviving week 1 nominees",
+       title="Surviving week 1 nominees on BBUS are overwhelmingly female",
+       subtitle = "4.5x more females than males have survivied a nomination in the first week")
+```
+
+# Plot the number of weeks surviving beyond their week 1 nomination as a historgram:
+```{r}
+data$weeks_surviving = data$Number - data$Place
+data$n <- 28
+
+a <- data %>%
+  select("Season","Name","Sex","weeks_surviving") %>%
+  summarise(
+    n=n(),
+    mean=mean(weeks_surviving),
+    sd=sd(weeks_surviving)
+  ) %>% 
+  mutate(se=sd/sqrt(n-1)) %>%
+  ggplot(aes(x=n,y=mean))+
+  geom_bar(stat="identity",alpha=0.2)+
+  geom_errorbar(aes(x=n,ymin=mean-se,ymax=mean+se,width=0.25))+
+  theme_classic()+
+  theme(plot.title=element_text(hjust=0.5))+
+  theme(plot.subtitle=element_text(hjust=0.5))+
+  labs(x="",
+       y="Number of weeks",
+       title="Number of weeks that surviving week #1 nominees lasted for")+
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x =element_blank())
+
+a + 
+  geom_jitter(data=data,aes(x=n,y=weeks_surviving),width=0.15,size=4,alpha=0.5,height=0)
 ```
 
 
