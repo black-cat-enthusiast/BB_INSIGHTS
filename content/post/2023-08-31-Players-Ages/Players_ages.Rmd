@@ -123,7 +123,7 @@ mean_ages_graph # Print out the result
 
 - The average age has not been changing systematically across the 25 seasons of BBus. 
 - The "right skew" in the histogram above is evident most seasons: 
-    + The majority of houseguests are clustered in their 20's with 2-3 players > 35 years each season. 
+    + The majority of houseguests are clustered in their 20's with 2-4 players > 35 years each season. 
 
 # Plot losers' vs winners' ages agains one another
 ```{r, fig.cap="Bars represent mean player age +/- SEM. Each BBUS player is plotted as an indiviual datapoint. The horizontal yellow line represents the median player age of 27 years."}
@@ -154,16 +154,16 @@ a <- data %>%
        title="Winners Ages' do not Differ From the Median Player Age of 27",
        subtitle="Mean winner age was lower than mean loser age, but this is influenced \n by the right-skew of the ages distribution")
 
-
-a + 
+ages_bar_graph <- a + 
   geom_jitter(data=data,aes(x=winner,y=age_i,colour=winner),height=0,width=0.15,size=4,alpha=0.2)+
   geom_hline(yintercept = 27,colour="#E4960E")
+
+ages_bar_graph
 ```
 
 ## Key Insights:
 
 - BBUS winners are not significantly younger than the median player age of 27. 
-- 
 
 # Graph the linear relationship between player age and place on their season. 
 ```{r, fig.cap="Data points represet individual players aggregated acorss all season of BBUS. The red line is the linear line of best fit that represents the relationship between players' ages and place in BBUS."}
