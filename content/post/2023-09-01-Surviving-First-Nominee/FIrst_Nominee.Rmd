@@ -1,0 +1,56 @@
+---
+title: "How long does the surviving nominee(s) from week #1 survive in the game?"
+author: "JLB"
+date: "2023-08-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,warning=FALSE,message=FALSE)
+```
+
+```{r}
+# Load Packages
+library(tidyverse)
+library(ggpubr)
+```
+
+```{r}
+# Get data
+data <- read_csv("First_Nominee.csv")
+data$Sex <- as.factor(data$Sex)
+```
+
+# Graph how far each surviving first week nominee made in on their season of BBUS: 
+```{r}
+ggplot(data, aes(x=Place,y=Season,colour=Sex))+
+  geom_segment(aes(x=Place,xend=Number,y=Season,yend=Season),size=2,colour="#C7D0D7")+
+  geom_point(size=5,alpha=0.5,alpha=0.5)+
+  scale_colour_manual(values=c("#8B5B6E","#95A7B6"))+
+  geom_point(data=data,aes(x=Number,y=Season),colour="#FAC5A6",size=5)+
+  geom_text(aes(x=Place,y=Season,label=Name))+
+  theme_classic()+
+  theme(plot.title=element_text(hjust=0.5))+
+  theme(plot.subtitle=element_text(hjust=0.5))+
+  theme(legend.position = "none")+
+  scale_x_reverse(breaks=c(1:17))+
+  scale_y_continuous(breaks = c(2:24))+
+  labs(
+    x="Place in their season of BBUS",
+    y="Seasons of BBUS",
+    title="How Long Does the Surviving Nominee from Week 1 Last?"
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
