@@ -30,7 +30,7 @@ data$Sex <- as.factor(data$Sex)
 ```
 
 # Graph how far each surviving first week nominee made in on their season of BBUS: 
-```{r, fig.cap=""}
+```{r, fig.cap="Data plotted as each seasons first nominee (y-axis) with that players place on their season represented on the x-axis. Peach points(left) represent the starting humber of players on each season. The length of the horizontal grey bars represents the number of weeks each surviving first nominee lasted in the game. Players are couloured by sex (male = blue, female = dusty pink)."}
 a <- ggplot(data, aes(x=Place,y=Season,colour=Sex))+
   geom_segment(aes(x=Place,xend=Number,y=Season,yend=Season),size=2,colour="#C7D0D7")+
   geom_point(size=5,alpha=0.5,alpha=0.5)+
