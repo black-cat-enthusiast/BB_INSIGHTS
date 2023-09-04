@@ -43,14 +43,5 @@
       <description>Question: Is winning the first HOH good or bad for players’ games?Players often mention that they don’t want to win the first HOH, as not to “put a target on their back”.Is there systematic evidence to support an effect of winning the first HOH on game outcomes? (Explored below)Graph where each first HOH placed on thir season of BBUS:Figure 1: Each week 1 HOH’s final place on their season of BBUs.</description>
     </item>
     
-    <item>
-      <title>About</title>
-      <link>/about/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
-      
-      <guid>/about/</guid>
-      <description>This is a &amp;ldquo;hello world&amp;rdquo; example website for the blogdown package. The theme was forked from @jrutheiser/hugo-lithium-theme and modified by Yihui Xie.</description>
-    </item>
-    
   </channel>
 </rss>
