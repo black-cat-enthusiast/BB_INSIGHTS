@@ -25,6 +25,7 @@ library(ggpubr)
 
 ```{r}
 # Get data
+setwd("C:/Users/Jennet/OneDrive - University of Toronto/DATA_BOSS/Portfolio_Visuals/Big_Brother_Data/BIG_BROTHER_BLOGDOWN_WEBSITE/AUG_31_HOME_TEST/BB_Insights/content/post/2023-09-01-Surviving-First-Nominee")
 data <- read_csv("First_Nominee.csv")
 data$Sex <- as.factor(data$Sex)
 ```

@@ -16,5 +16,14 @@
       <description>Visualize the spread of player ages across all seasons as a histogramFigure 1: Data plotted as the number of houseguets (y-axis) that fall in to each category. Each bar representes 2 years of age. The mean and median player ages are indicated by couloured vertical dashed lines.Key Insights:Visual inspection of the distribution of players indicates that most BBUS houseguests are in their mid-late 20’s during the filming of their seasons.</description>
     </item>
     
+    <item>
+      <title>How long does the surviving week 1 nominee last in the game?</title>
+      <link>/2023/08/28/how-long-does-the-surviving-week-1-nominee-last-in-the-game/</link>
+      <pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/2023/08/28/how-long-does-the-surviving-week-1-nominee-last-in-the-game/</guid>
+      <description>Graph how far each surviving first week nominee made in on their season of BBUS:Figure 1: Data plotted as each seasons first nominee (y-axis) with that players place on their season represented on the x-axis. Peach points(left) represent the starting humber of players on each season. The length of the horizontal grey bars represents the number of weeks each surviving first nominee lasted in the game. Players are couloured by sex (male = blue, female = dusty pink).</description>
+    </item>
+    
   </channel>
 </rss>
