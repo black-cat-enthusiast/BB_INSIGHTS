@@ -53,6 +53,11 @@ a <- ggplot(data, aes(x=Place,y=Season,colour=Sex))+
 a
 ```
 
+## Key Insights: 
+
+- Two surviving week 1 nominees have won the game (Taylor from BB24 & Nicole from BB18).
+- More females than males have survived a nomination in the first week of BBUS (see below).
+
 # Plot number of male vs female surviving week 1 nominees:
 ```{r}
 data %>%
@@ -101,9 +106,16 @@ a <- data %>%
 
 a + 
   geom_jitter(data=data,aes(x=n,y=weeks_surviving),width=0.15,size=4,alpha=0.5,height=0)
+
+data %>%
+  ggplot(aes(x=Place))+
+  geom_histogram(binwidth=2,alpha=0.2)+
+  theme_classic()
 ```
 
+# Key Insights: 
 
+- On average, surviving week 1 nominees lasts for 8 weeks after surviving their week 1 nomination. 
 
 
 
