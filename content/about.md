@@ -3,7 +3,7 @@ date: "2023-09-04T21:48:51-07:00"
 title: About
 ---
 
-This is a website dedicated to insight-focuse analysis of data from the popular American TV show Big Brother. 
+This is a website dedicated to insight-focuse analysis of data from the popular American TV show Big Brother.
 
 Raw data and code used to produce all visualizations can be found on github. 
 
