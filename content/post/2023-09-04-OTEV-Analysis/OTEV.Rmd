@@ -1,0 +1,183 @@
+---
+title: "OTEV Analysis"
+author: "JLB"
+date: "2023-08-28"
+output: html_document
+---
+
+<style>
+p.caption {
+  font-size: 0.6em;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,warning=FALSE,message=FALSE)
+```
+
+```{r}
+# Load packages
+library(tidyverse)
+library(reshape2)
+library(ggrepel)
+library(ggpubr)
+```
+
+```{r}
+# Get Data from Wikipedia 
+data <- read_csv("OTEV_data.csv")
+```
+
+# Make Graph of which week OTEV was played in each season:
+```{r,fig.cap="Seasons of BBUS where OTEV was played (y-axis) plotted against which week in the season OTEV appeared (y-axis)."}
+OTEV_week_graph <- data %>%
+  ggplot(aes(x=Season,y=Week))+
+  geom_point(size=4,alpha=0.5)+
+  theme_classic()+
+  theme(plot.title = element_text(hjust=0.5))+
+  scale_y_continuous(breaks=1:10)+
+  scale_x_continuous(breaks=7:24)+
+  labs(
+    x="Seasons of BBUS",
+    y="Week that OTEV was Played for VETO",
+    title="OTEV has Been a Staple BBUS VETO Competition Since its \n First Introduction During BBUS Season 7"
+  )+
+  geom_text(aes(x=Season,y=Week+0.25,label=Winner),size=2.75)+
+  geom_text_repel(aes(x=Season,y=Week,label=Name),nudge_y = -0.35,size=1.5)+
+  geom_segment(x=10,xend=11,y=4.5,yend=5,colour="#800020")+
+  geom_text(x=11,y=5.2,label="OTEV was not played in season 10",size=2,colour="#800020")
+
+OTEV_week_graph
+```
+
+### Key Insights:
+- Since it was first introduced during season 7, OTEV has been played every season except for season 10. 
+- Each season OTEV has appearead as a different wacky character, but the fundamentals of the game have remained consistent. 
+
+<center>
+
+![](https://media2.giphy.com/media/Jm9am23WtoCbHFxIm0/giphy.gif?cid=ecf05e47yu3ruzi00smd1alweg24lnssfv8k7o0tx01b5l58&ep=v1_gifs_related&rid=giphy.gif&ct=g)
+
+</center>
+
+# Graph week of eviction for OTEV winners
+```{r, fig.cap="How long did OTEV winners last in the game after winning OTEV? Seasons of BBUS where OTEV was played are plotted on the y-axis. Yellow circles reprsent the number of houseguests that played in OTEV and purple dots represtent the place within their season. "}
+data_2 <- data %>%
+ select(c("Season","Week","Winner","OTEV_players","Place")) %>%
+  melt(id.vars=c("Season","Week","Winner")) %>%
+  mutate(variable = as.factor(variable))
+
+
+a <- ggplot(data,aes(x=Place,y=Season))+
+  geom_segment(aes(x=Place,xend=OTEV_players,yend=Season),size=2,colour="lightgrey")+
+  theme_classic()+
+  theme(legend.position = "none",legend.justification = "none")+
+  theme(plot.title=element_text(hjust=0.5))+
+  labs(x="Number of BB Houseguests",
+       y="Seasons of BBUS",
+       title="How Long do OTEV Winners Last?")+
+  scale_x_reverse(breaks=c(1:12))+
+  scale_y_continuous(breaks=7:24)
+
+OTEV_place_graph <- a + 
+  geom_point(data=data,aes(x=Place,y=Season),size=4,colour="#55185D",alpha=0.7)+
+  geom_point(data=data,aes(x=OTEV_players,y=Season),size=4,colour="#ECB602",alpha=0.7)+
+  geom_text(data=data,aes(x=Place,y=Season,label=Winner),nudge_x = 1,size=3)+
+  geom_text(aes(x=10.5,y=12,label="Legend"))+
+  geom_segment(aes(x=11.5,xend=9.5,y=11,yend=11),size=2,colour="lightgrey")+
+  geom_point(aes(x=11.5,y=11,alpha=0.7),size=4,colour="#ECB602")+
+  geom_point(aes(x=9.5,y=11),size=4,colour="#55185D")+
+  geom_text(aes(x=11.5,y=9.5,label="Number of \n Houseguests \n that played OTEV"),size=1.5)+
+  geom_text(aes(x=9.5,y=9.5,label="OTEV winner's \n place on \n their season"),size=1.5)
+
+OTEV_place_graph
+```
+
+### Key Insights: 
+- The only OTEV winner that has gone on to win BBUS in Cody during (sm)all stars (season 22).
+- Houseguests seem to last for several weeks on average after OTEV
+
+```{r,fig.cap="Mean number of weeks that OTEV winners last after winning OTEV. Data plotted as mean value +/- Standard error of the mean with individual data points overlaid."}
+a <- data %>%
+  summarise(
+    n=n(),
+    mean=mean(Post_OTEV_weeks),
+    sd=sd(Post_OTEV_weeks),
+  ) %>% mutate(se = sd / sqrt(n-1)) %>%
+  ggplot(aes(x=n,y=mean))+
+  geom_bar(stat="identity",alpha=0.2)+
+  geom_errorbar(aes(x=n,ymin=mean-se,ymax=mean+se),width=0.25)+
+  theme_classic()+
+  theme(plot.title=element_text(hjust=0.5))+
+  labs(x="",y="Number of Weeks",title="Length of stay in the BBUS house after winning OTEV")+
+  theme(axis.text.x = element_blank(),
+        axis.ticks = element_blank())
+
+data$n <- 17
+
+a +
+  geom_jitter(data=data,aes(x=n,y=Post_OTEV_weeks),size=4,alpha=0.5,width=0.15,height = 0)
+```
+
+# Male vs female OTEV winners
+```{r}
+OTEV_sex_graph <- data %>%
+  group_by(Sex)%>%
+  summarise(
+    n=n()
+  ) %>%
+  ggplot(aes(x=Sex,y=n,colour=Sex,fill=Sex))+
+  geom_bar(stat="identity",alpha=0.2)+
+  geom_text(aes(x=Sex,y=1,label=n))+
+  scale_colour_manual(values=c("#CD5E77","#89CFF0"))+
+  scale_fill_manual(values=c("#CD5E77","#89CFF0"))+
+  theme_classic()+
+  theme(legend.position="none")+
+  theme(plot.title = element_text(hjust=0.5))+
+  scale_x_discrete(labels=c("Female \n OTEV winners","Male \n OTEV winners"))+
+  scale_y_continuous(breaks=c(2,4,6,8,10,12))+
+  labs(x="",
+       y="Number of OTEV Winners",
+       title="Male Houseguests win OTEV more often than females")
+
+OTEV_sex_graph
+```
+
+### Key Insights:
+- 71% of OTEV winners have been male. 
+    + *Question arrising: Have equal proportions of males and females played OTEV over the years?*
+
+### Interpretation: 
+- OTEV is a physical competition that relies heavilly on upper body strength. It is therefore not surprising that male houseguests tend to win this competition over females. 
+
+<center>
+
+![](https://media4.giphy.com/media/z2ZyfLza7pTR6imadf/giphy.gif?cid=ecf05e47oymoqgdi75nya3fu8mdlgnvirihqf53fr711cptp&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+
+</center>
+
+```{r}
+# Arrange Panel
+panel <- ggarrange(OTEV_week_graph,OTEV_sex_graph,OTEV_place_graph,
+                   nrow=1,ncol=3,
+                   labels=c("A","B","C"),
+                   widths=c(1,0.5,0.75))
+
+ggsave("Panel.png",panel,height=3.5,width=12)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

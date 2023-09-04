@@ -1,5 +1,5 @@
 ---
-title: "Is winning the first or second HOH competition advantageous to winning BBUS?"
+title: "Is winning the first or second HOH competition advantageous in BBUS?"
 author: "JLB"
 date: "2023-08-27"
 output: html_document
@@ -17,8 +17,8 @@ library(ggpubr)
 
 # Question: Is winning the first HOH good or bad for players' games? 
 
-- Players often mention that they don't want to win the first HOH, as not to "but a target on their back". 
-- *Is there systematic evidence to support an effect of winning the first HOH on game outcomes?* 
+- Players often mention that they don't want to win the first HOH, as not to "put a target on their back". 
+- *Is there systematic evidence to support an effect of winning the first HOH on game outcomes?* (Explored below)
 
 # Graph where each first HOH placed on thir season of BBUS: 
 ```{r, fig.cap="Each week 1 HOH's final place on their season of BBUs. The starting point of the grey line reperesents the number of players on each season"}
@@ -54,7 +54,7 @@ First_HOH_graph
     + Therefore, winning the first HOH does not appear to be deteremental to player's games. 
 
 # Plot week 1 HOH winner's outcomes in BBUS as a histogram: 
-```{r}
+```{r. fig.cap="The number of week 1 HOHs (x-axis that finished in each possible place (y-axis) on their season of BBUS."}
 data <- first_HOH_data %>%
   group_by(Place) %>%
   mutate(num_dum  = 1:length(Place))
