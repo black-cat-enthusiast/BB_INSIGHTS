@@ -1,0 +1,224 @@
+---
+title: "Is winning the first or second HOH competition advantageous to winning BBUS?"
+author: "JLB"
+date: "2023-08-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,warning=FALSE,message=FALSE)
+```
+
+```{r}
+# Load Packages
+library(tidyverse)
+library(ggpubr)
+```
+
+# Question: Is winning the first HOH good or bad for players' games? 
+
+- Players often mention that they don't want to win the first HOH, as not to "but a target on their back". 
+- *Is there systematic evidence to support an effect of winning the first HOH on game outcomes?* 
+
+# Graph where each first HOH placed on thir season of BBUS: 
+```{r, fig.cap="Each week 1 HOH's final place on their season of BBUs. The starting point of the grey line reperesents the number of players on each season"}
+first_HOH_data <- read_csv("First_HOH.csv")
+
+a <- first_HOH_data %>%
+  arrange(Season) %>%
+  ggplot(aes(x=Place,y=Season))+
+  geom_segment(aes(x=Number,xend=Place,y=Season,yend=Season),size=2,colour="lightgrey")+
+  geom_point(size=5,colour="#800020",alpha=0.4)+
+  theme_classic()+
+  theme(plot.title = element_text(hjust=0.5))+
+  theme(plot.subtitle = element_text(hjust=0.5))+
+  scale_y_continuous(breaks = 2:24)+
+  scale_x_continuous(breaks = 1:17)+
+  labs(
+    x = "Place on their season of BBUS",
+    y = "Seasons of BBUS",
+    title = "Curse of the first HOH winner?",
+    subtitle = "Actually, 5 of 24 first HOH winners have won the game."
+  )
+
+First_HOH_graph <-  a + 
+  geom_text(aes(x=Place,y=Season,label=First_HOH),check_overlap = TRUE)+
+  scale_x_reverse(breaks=1:17)
+
+First_HOH_graph
+```
+
+### Key Insights: 
+
+- Five week 1 HOH's have gone on to win their season of big brother. 
+    + Therefore, winning the first HOH does not appear to be deteremental to player's games. 
+
+# Plot week 1 HOH winner's outcomes in BBUS as a histogram: 
+```{r}
+data <- first_HOH_data %>%
+  group_by(Place) %>%
+  mutate(num_dum  = 1:length(Place))
+
+data %>%
+  ggplot(aes(y=Place))+
+  geom_histogram(alpha=0.3)+
+  scale_y_continuous(breaks=c(1:17))+
+  theme_classic()+
+  theme(plot.title=element_text(hjust=0.5))+
+  labs(
+    x="Number of Week 1 HOHs",
+    y="Place on their season of BBUS",
+    title = "First Place is the most common outcome for week 1 HOH winners"
+  )+
+  geom_text(aes(x=num_dum,y=Place, label=First_HOH),size=4,colour="#800020")
+```
+
+### Key Insights: 
+- First place is the most common finish for week 1 HOH winners. 
+- 40% of week 1 HOHs finish between 1st and 4th place 
+  + (McCrae,Caleb,Janelle,Jerry,Typer,Lisa,Hayden,Rachel,Nicole,Cody)
+
+# Investigae how far in the game week 2 winners last:
+```{r}
+second_HOH_data <- read_csv("Second_HOH.csv")
+
+a <- second_HOH_data %>%
+  arrange(Season) %>%
+  ggplot(aes(x=Place,y=Season))+
+  geom_segment(aes(x=Number,xend=Place,y=Season,yend=Season),size=2,colour="lightgrey")+
+  geom_point(size=5,colour="#800020",alpha=0.4)+
+  theme_classic()+
+  theme(plot.title = element_text(hjust=0.5))+
+  theme(plot.subtitle = element_text(hjust=0.5))+
+  scale_y_continuous(breaks = 2:24)+
+  scale_x_continuous(breaks = 1:17)+
+  labs(
+    x = "Place on their season of BBUS",
+    y = "Seasons of BBUS",
+    title = "Curse of the second HOH winner?",
+    subtitle = "No player that has won the second HOH has gone on to win the game."
+  )
+Second_HOH_graph <-  a + 
+  geom_text(aes(x=Place,y=Season,label=Second_HOH),check_overlap = TRUE)+
+  scale_x_reverse(breaks=c(1:17))
+
+Second_HOH_graph
+```
+
+### Key Insights:
+- No week 2 HOH has gone on to win their season of BBUS. 
+- Only 3 / 24 (12%) week 2 HOHs have made it to the final 4 on their season.
+
+# Plot week 1 HOH winner's outcomes in BBUS as a histogram: 
+```{r}
+data <- second_HOH_data %>%
+  group_by(Place) %>%
+  mutate(num_dum  = 1:length(Place))
+
+data %>%
+  ggplot(aes(y=Place))+
+  geom_histogram(alpha=0.3)+
+  scale_y_continuous(breaks=c(1:17))+
+  theme_classic()+
+  theme(plot.title=element_text(hjust=0.5))+
+  labs(
+    x="Number of Week 1 HOHs",
+    y="Place on their season of BBUS",
+    title = "First Place is the most common outcome for week 1 HOH winners"
+  )+
+  geom_text(aes(x=num_dum,y=Place, label=Second_HOH),size=4,colour="#800020")
+```
+
+# Calculate odds of winning BB for week 1 HOHs 
+```{r, echo = TRUE}
+# Chance odds of winning Big brother
+bb_odds <- 1/mean(first_HOH_data$Number)
+
+# Odds of winning BB after winning the FIRST HOH
+first_HOH_odds <- 5/24
+
+# Odds of eviction during week 2 after winning week 1 HOH
+week_two_eviction_odds <- 2/24
+
+# Week 1 winner's odds of winning their season / chance
+Relative_odds <- first_HOH_odds / bb_odds
+Relative_odds
+# Week 1 winner's odds of eviction the following week / chance. 
+Relative_odds_2 <- week_two_eviction_odds / bb_odds
+Relative_odds_2
+
+Relative_odds_3 <- first_HOH_odds / week_two_eviction_odds
+Relative_odds_3
+```
+
+### Key Insights 
+- Winners of the first HOH competition are 3x more likely than chance odds to win their season of BBUS. 
+- First week HOH's are 20% more likly to go home the following week than chance, but,
+- Week 1 HOH winners are 2.5x more likely to win the game than to go home in week 2. 
+
+# Calculate odds of finishing within the final 4 for winners of the first / second HOH
+- Cannot calculate odds of winning becauese no one who has won week 2 HOH has gone one to win! 
+```{r, echo = TRUE}
+# Chance odds of placing in the top 3 on BBUS
+bb_top_4_odds <- 4/mean(first_HOH_data$Number)
+
+# Odds of placing within the top 4 after winning the FIRST HOH
+first_HOH_top4_odds <- 10/24
+second_HOH_top4_odds <- 3/24
+
+# Week 1 winner's odds of placing within the top 4 / chance
+first_HOH_Relative_odds <- first_HOH_top4_odds / bb_top_4_odds
+first_HOH_Relative_odds
+
+# SECOND HOH's chance of placing within top 4 / chance. 
+second_HOH_Relative_odds <- second_HOH_top4_odds / bb_top_4_odds
+second_HOH_Relative_odds
+
+Relative_odds_3 <- first_HOH_Relative_odds / second_HOH_Relative_odds
+Relative_odds_3
+```
+
+### Key Insights:
+- Winners of week 1 HOH are 50% more likely than chance to end up in the final 4 on their season.
+- Winning week 2 HOH is associated with a 55% reduction in probability of making it to the final 4 on their season. 
+- Winners of week 1 are 3.33x more likely than winners of week 2 to make it to the top 4. 
+
+### **Overall take-away: houseguests should gun for that 1st HOH!!!**
+
+```{r}
+# Arrange Panel
+panel <- ggarrange(First_HOH_graph,Second_HOH_graph,
+                   nrow=1,ncol=2,
+                   labels=c("A","B"))
+
+ggsave("Panel.png",panel,height=5,width=12,dpi=300)
+```
+
+<center>
+
+![](https://media.tenor.com/3luMJQP_qgkAAAAC/bb22-nicole-franzel.gif)
+
+</center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

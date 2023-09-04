@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.115.2">
+
+
+<title>Is winning the first or second HOH competition advantageous to winning BBUS? - A Hugo website</title>
+<meta property="og:title" content="Is winning the first or second HOH competition advantageous to winning BBUS? - A Hugo website">
+
+
+  <link href='../../../../favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="../../../../css/fonts.css" media="all">
+<link rel="stylesheet" href="../../../../css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="../../../../" class="nav-logo">
+    <img src="../../../../images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="../../../../about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">3 min read</span>
+    
+
+    <h1 class="article-title">Is winning the first or second HOH competition advantageous to winning BBUS?</h1>
+
+    
+    <span class="article-date">2023-08-27</span>
+    
+
+    <div class="article-content">
+      
+      
+
+
+<div id="question-is-winning-the-first-hoh-good-or-bad-for-players-games" class="section level1">
+<h1>Question: Is winning the first HOH good or bad for players’ games?</h1>
+<ul>
+<li>Players often mention that they don’t want to win the first HOH, as not to “but a target on their back”.</li>
+<li><em>Is there systematic evidence to support an effect of winning the first HOH on game outcomes?</em></li>
+</ul>
+</div>
+<div id="graph-where-each-first-hoh-placed-on-thir-season-of-bbus" class="section level1">
+<h1>Graph where each first HOH placed on thir season of BBUS:</h1>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="../../../../post/2023-09-04-First-and-Second-HOHs/First_HOH_files/figure-html/unnamed-chunk-2-1.png" alt="Each week 1 HOH's final place on their season of BBUs. The starting point of the grey line reperesents the number of players on each season" width="672" />
+<p class="caption">
+Figure 1: Each week 1 HOH’s final place on their season of BBUs. The starting point of the grey line reperesents the number of players on each season
+</p>
+</div>
+<div id="key-insights" class="section level3">
+<h3>Key Insights:</h3>
+<ul>
+<li>Five week 1 HOH’s have gone on to win their season of big brother.
+<ul>
+<li>Therefore, winning the first HOH does not appear to be deteremental to player’s games.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="plot-week-1-hoh-winners-outcomes-in-bbus-as-a-histogram" class="section level1">
+<h1>Plot week 1 HOH winner’s outcomes in BBUS as a histogram:</h1>
+<p><img src="../../../../post/2023-09-04-First-and-Second-HOHs/First_HOH_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div id="key-insights-1" class="section level3">
+<h3>Key Insights:</h3>
+<ul>
+<li>First place is the most common finish for week 1 HOH winners.</li>
+<li>40% of week 1 HOHs finish between 1st and 4th place
+<ul>
+<li>(McCrae,Caleb,Janelle,Jerry,Typer,Lisa,Hayden,Rachel,Nicole,Cody)</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="investigae-how-far-in-the-game-week-2-winners-last" class="section level1">
+<h1>Investigae how far in the game week 2 winners last:</h1>
+<p><img src="../../../../post/2023-09-04-First-and-Second-HOHs/First_HOH_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="key-insights-2" class="section level3">
+<h3>Key Insights:</h3>
+<ul>
+<li>No week 2 HOH has gone on to win their season of BBUS.</li>
+<li>Only 3 / 24 (12%) week 2 HOHs have made it to the final 4 on their season.</li>
+</ul>
+</div>
+</div>
+<div id="plot-week-1-hoh-winners-outcomes-in-bbus-as-a-histogram-1" class="section level1">
+<h1>Plot week 1 HOH winner’s outcomes in BBUS as a histogram:</h1>
+<p><img src="../../../../post/2023-09-04-First-and-Second-HOHs/First_HOH_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="calculate-odds-of-winning-bb-for-week-1-hohs" class="section level1">
+<h1>Calculate odds of winning BB for week 1 HOHs</h1>
+<pre class="r"><code># Chance odds of winning Big brother
+bb_odds &lt;- 1/mean(first_HOH_data$Number)
+
+# Odds of winning BB after winning the FIRST HOH
+first_HOH_odds &lt;- 5/24
+
+# Odds of eviction during week 2 after winning week 1 HOH
+week_two_eviction_odds &lt;- 2/24
+
+# Week 1 winner&#39;s odds of winning their season / chance
+Relative_odds &lt;- first_HOH_odds / bb_odds
+Relative_odds</code></pre>
+<pre><code>## [1] 3.064236</code></pre>
+<pre class="r"><code># Week 1 winner&#39;s odds of eviction the following week / chance. 
+Relative_odds_2 &lt;- week_two_eviction_odds / bb_odds
+Relative_odds_2</code></pre>
+<pre><code>## [1] 1.225694</code></pre>
+<pre class="r"><code>Relative_odds_3 &lt;- first_HOH_odds / week_two_eviction_odds
+Relative_odds_3</code></pre>
+<pre><code>## [1] 2.5</code></pre>
+<div id="key-insights-3" class="section level3">
+<h3>Key Insights</h3>
+<ul>
+<li>Winners of the first HOH competition are 3x more likely than chance odds to win their season of BBUS.</li>
+<li>First week HOH’s are 20% more likly to go home the following week than chance, but,</li>
+<li>Week 1 HOH winners are 2.5x more likely to win the game than to go home in week 2.</li>
+</ul>
+</div>
+</div>
+<div id="calculate-odds-of-finishing-within-the-final-4-for-winners-of-the-first-second-hoh" class="section level1">
+<h1>Calculate odds of finishing within the final 4 for winners of the first / second HOH</h1>
+<ul>
+<li>Cannot calculate odds of winning becauese no one who has won week 2 HOH has gone one to win!</li>
+</ul>
+<pre class="r"><code># Chance odds of placing in the top 3 on BBUS
+bb_top_4_odds &lt;- 4/mean(first_HOH_data$Number)
+
+# Odds of placing within the top 4 after winning the FIRST HOH
+first_HOH_top4_odds &lt;- 10/24
+second_HOH_top4_odds &lt;- 3/24
+
+# Week 1 winner&#39;s odds of placing within the top 4 / chance
+first_HOH_Relative_odds &lt;- first_HOH_top4_odds / bb_top_4_odds
+first_HOH_Relative_odds</code></pre>
+<pre><code>## [1] 1.532118</code></pre>
+<pre class="r"><code># SECOND HOH&#39;s chance of placing within top 4 / chance. 
+second_HOH_Relative_odds &lt;- second_HOH_top4_odds / bb_top_4_odds
+second_HOH_Relative_odds</code></pre>
+<pre><code>## [1] 0.4596354</code></pre>
+<pre class="r"><code>Relative_odds_3 &lt;- first_HOH_Relative_odds / second_HOH_Relative_odds
+Relative_odds_3</code></pre>
+<pre><code>## [1] 3.333333</code></pre>
+<div id="key-insights-4" class="section level3">
+<h3>Key Insights:</h3>
+<ul>
+<li>Winners of week 1 HOH are 50% more likely than chance to end up in the final 4 on their season.</li>
+<li>Winning week 2 HOH is associated with a 55% reduction in probability of making it to the final 4 on their season.</li>
+<li>Winners of week 1 are 3.33x more likely than winners of week 2 to make it to the top 4.</li>
+</ul>
+</div>
+<div id="overall-take-away-houseguests-should-gun-for-that-1st-hoh" class="section level3">
+<h3><strong>Overall take-away: houseguests should gun for that 1st HOH!!!</strong></h3>
+<center>
+<p><img src="https://media.tenor.com/3luMJQP_qgkAAAAC/bb22-nicole-franzel.gif" /></p>
+</center>
+</div>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="../../../../images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="../../../../js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
