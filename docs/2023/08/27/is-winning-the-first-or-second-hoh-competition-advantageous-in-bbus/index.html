@@ -60,7 +60,7 @@
 
   <article class="article">
     
-    <span class="article-duration">4 min read</span>
+    <span class="article-duration">3 min read</span>
     
 
     <h1 class="article-title">Is winning the first or second HOH competition advantageous in BBUS?</h1>
@@ -74,6 +74,11 @@
       
 
 
+<style>
+p.caption {
+  font-size: 0.6em;
+}
+</style>
 <div id="question-is-winning-the-first-hoh-good-or-bad-for-players-games" class="section level1">
 <h1>Question: Is winning the first HOH good or bad for players’ games?</h1>
 <ul>
@@ -101,42 +106,26 @@ Figure 1: Each week 1 HOH’s final place on their season of BBUs. The starting 
 </div>
 <div id="plot-week-1-hoh-winners-outcomes-in-bbus-as-a-histogram" class="section level1">
 <h1>Plot week 1 HOH winner’s outcomes in BBUS as a histogram:</h1>
-<p>```{r. fig.cap=“The number of week 1 HOHs (x-axis that finished in each possible place (y-axis) on their season of BBUS.”}
-data &lt;- first_HOH_data %&gt;%
-group_by(Place) %&gt;%
-mutate(num_dum = 1:length(Place))</p>
-<p>data %&gt;%
-ggplot(aes(y=Place))+
-geom_histogram(alpha=0.3)+
-scale_y_continuous(breaks=c(1:17))+
-theme_classic()+
-theme(plot.title=element_text(hjust=0.5))+
-labs(
-x=“Number of Week 1 HOHs”,
-y=“Place on their season of BBUS”,
-title = “First Place is the most common outcome for week 1 HOH winners”
-)+
-geom_text(aes(x=num_dum,y=Place, label=First_HOH),size=4,colour=“#800020”)</p>
-<pre><code>
-### Key Insights: 
-- First place is the most common finish for week 1 HOH winners. 
-- 40% of week 1 HOHs finish between 1st and 4th place 
-  + (McCrae,Caleb,Janelle,Jerry,Typer,Lisa,Hayden,Rachel,Nicole,Cody)
-
-# Investigae how far in the game week 2 winners last:
-&lt;img src=&quot;First_HOH_files/figure-html/unnamed-chunk-3-1.png&quot; width=&quot;672&quot; /&gt;
-
-### Key Insights:
-- No week 2 HOH has gone on to win their season of BBUS. 
-- Only 3 / 24 (12%) week 2 HOHs have made it to the final 4 on their season.
-
-# Plot week 1 HOH winner&#39;s outcomes in BBUS as a histogram: 
-&lt;img src=&quot;First_HOH_files/figure-html/unnamed-chunk-4-1.png&quot; width=&quot;672&quot; /&gt;
-
-# Calculate odds of winning BB for week 1 HOHs 
-
-```r
-# Chance odds of winning Big brother
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
+<img src="../../../../post/2023-09-04-First-and-Second-HOHs/First_HOH_files/figure-html/unnamed-chunk-3-1.png" alt="The number of week 1 HOHs (x-axis that finished in each possible place (y-axis) on their season of BBUS." width="672" />
+<p class="caption">
+Figure 2: The number of week 1 HOHs (x-axis that finished in each possible place (y-axis) on their season of BBUS.
+</p>
+</div>
+<div id="key-insights-1" class="section level3">
+<h3>Key Insights:</h3>
+<ul>
+<li>First place is the most common finish for week 1 HOH winners.</li>
+<li>40% of week 1 HOHs finish between 1st and 4th place
+<ul>
+<li>(McCrae,Caleb,Janelle,Jerry,Typer,Lisa,Hayden,Rachel,Nicole,Cody)</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="calculate-odds-of-winning-bb-for-week-1-hohs" class="section level1">
+<h1>Calculate odds of winning BB for week 1 HOHs</h1>
+<pre class="r"><code># Chance odds of winning Big brother
 bb_odds &lt;- 1/mean(first_HOH_data$Number)
 
 # Odds of winning BB after winning the FIRST HOH
@@ -156,7 +145,7 @@ Relative_odds_2</code></pre>
 <pre class="r"><code>Relative_odds_3 &lt;- first_HOH_odds / week_two_eviction_odds
 Relative_odds_3</code></pre>
 <pre><code>## [1] 2.5</code></pre>
-<div id="key-insights-1" class="section level3">
+<div id="key-insights-2" class="section level3">
 <h3>Key Insights</h3>
 <ul>
 <li>Winners of the first HOH competition are 3x more likely than chance odds to win their season of BBUS.</li>
@@ -164,6 +153,27 @@ Relative_odds_3</code></pre>
 <li>Week 1 HOH winners are 2.5x more likely to win the game than to go home in week 2.</li>
 </ul>
 </div>
+</div>
+<div id="investigae-how-far-in-the-game-week-2-winners-last" class="section level1">
+<h1>Investigae how far in the game week 2 winners last:</h1>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
+<img src="../../../../post/2023-09-04-First-and-Second-HOHs/First_HOH_files/figure-html/unnamed-chunk-5-1.png" alt="Winners of the second week HOH plotted by season of BBUS (y-axis) against the week 2 HOH's final place on their season (x-axis). Note the no week 2 HOH winner has proceedeed to win the game." width="672" />
+<p class="caption">
+Figure 3: Winners of the second week HOH plotted by season of BBUS (y-axis) against the week 2 HOH’s final place on their season (x-axis). Note the no week 2 HOH winner has proceedeed to win the game.
+</p>
+</div>
+<div id="key-insights-3" class="section level3">
+<h3>Key Insights:</h3>
+<ul>
+<li>No week 2 HOH has gone on to win their season of BBUS.</li>
+<li>Only 3 / 24 (12%) week 2 HOHs have made it to the final 4 on their season.</li>
+<li>Winning the second HOH may be associated with negative game outcomes overall.</li>
+</ul>
+</div>
+</div>
+<div id="plot-week-1-hoh-winners-outcomes-in-bbus-as-a-histogram-1" class="section level1">
+<h1>Plot week 1 HOH winner’s outcomes in BBUS as a histogram:</h1>
+<p><img src="../../../../post/2023-09-04-First-and-Second-HOHs/First_HOH_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="calculate-odds-of-finishing-within-the-final-4-for-winners-of-the-first-second-hoh" class="section level1">
 <h1>Calculate odds of finishing within the final 4 for winners of the first / second HOH</h1>
@@ -188,7 +198,7 @@ second_HOH_Relative_odds</code></pre>
 <pre class="r"><code>Relative_odds_3 &lt;- first_HOH_Relative_odds / second_HOH_Relative_odds
 Relative_odds_3</code></pre>
 <pre><code>## [1] 3.333333</code></pre>
-<div id="key-insights-2" class="section level3">
+<div id="key-insights-4" class="section level3">
 <h3>Key Insights:</h3>
 <ul>
 <li>Winners of week 1 HOH are 50% more likely than chance to end up in the final 4 on their season.</li>

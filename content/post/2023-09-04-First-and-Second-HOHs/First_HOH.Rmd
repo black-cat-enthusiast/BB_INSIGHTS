@@ -5,6 +5,12 @@ date: "2023-08-27"
 output: html_document
 ---
 
+<style>
+p.caption {
+  font-size: 0.6em;
+}
+</style>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,warning=FALSE,message=FALSE)
 ```
@@ -54,7 +60,7 @@ First_HOH_graph
     + Therefore, winning the first HOH does not appear to be deteremental to player's games. 
 
 # Plot week 1 HOH winner's outcomes in BBUS as a histogram: 
-```{r. fig.cap="The number of week 1 HOHs (x-axis that finished in each possible place (y-axis) on their season of BBUS."}
+```{r, fig.cap="The number of week 1 HOHs (x-axis that finished in each possible place (y-axis) on their season of BBUS."}
 data <- first_HOH_data %>%
   group_by(Place) %>%
   mutate(num_dum  = 1:length(Place))
@@ -78,8 +84,35 @@ data %>%
 - 40% of week 1 HOHs finish between 1st and 4th place 
   + (McCrae,Caleb,Janelle,Jerry,Typer,Lisa,Hayden,Rachel,Nicole,Cody)
 
+# Calculate odds of winning BB for week 1 HOHs 
+```{r, echo = TRUE}
+# Chance odds of winning Big brother
+bb_odds <- 1/mean(first_HOH_data$Number)
+
+# Odds of winning BB after winning the FIRST HOH
+first_HOH_odds <- 5/24
+
+# Odds of eviction during week 2 after winning week 1 HOH
+week_two_eviction_odds <- 2/24
+
+# Week 1 winner's odds of winning their season / chance
+Relative_odds <- first_HOH_odds / bb_odds
+Relative_odds
+# Week 1 winner's odds of eviction the following week / chance. 
+Relative_odds_2 <- week_two_eviction_odds / bb_odds
+Relative_odds_2
+
+Relative_odds_3 <- first_HOH_odds / week_two_eviction_odds
+Relative_odds_3
+```
+
+### Key Insights 
+- Winners of the first HOH competition are 3x more likely than chance odds to win their season of BBUS. 
+- First week HOH's are 20% more likly to go home the following week than chance, but,
+- Week 1 HOH winners are 2.5x more likely to win the game than to go home in week 2. 
+
 # Investigae how far in the game week 2 winners last:
-```{r}
+```{r, fig.cap="Winners of the second week HOH plotted by season of BBUS (y-axis) against the week 2 HOH's final place on their season (x-axis). Note the no week 2 HOH winner has proceedeed to win the game."}
 second_HOH_data <- read_csv("Second_HOH.csv")
 
 a <- second_HOH_data %>%
@@ -108,6 +141,7 @@ Second_HOH_graph
 ### Key Insights:
 - No week 2 HOH has gone on to win their season of BBUS. 
 - Only 3 / 24 (12%) week 2 HOHs have made it to the final 4 on their season.
+- Winning the second HOH may be associated with negative game outcomes overall. 
 
 # Plot week 1 HOH winner's outcomes in BBUS as a histogram: 
 ```{r}
@@ -128,33 +162,6 @@ data %>%
   )+
   geom_text(aes(x=num_dum,y=Place, label=Second_HOH),size=4,colour="#800020")
 ```
-
-# Calculate odds of winning BB for week 1 HOHs 
-```{r, echo = TRUE}
-# Chance odds of winning Big brother
-bb_odds <- 1/mean(first_HOH_data$Number)
-
-# Odds of winning BB after winning the FIRST HOH
-first_HOH_odds <- 5/24
-
-# Odds of eviction during week 2 after winning week 1 HOH
-week_two_eviction_odds <- 2/24
-
-# Week 1 winner's odds of winning their season / chance
-Relative_odds <- first_HOH_odds / bb_odds
-Relative_odds
-# Week 1 winner's odds of eviction the following week / chance. 
-Relative_odds_2 <- week_two_eviction_odds / bb_odds
-Relative_odds_2
-
-Relative_odds_3 <- first_HOH_odds / week_two_eviction_odds
-Relative_odds_3
-```
-
-### Key Insights 
-- Winners of the first HOH competition are 3x more likely than chance odds to win their season of BBUS. 
-- First week HOH's are 20% more likly to go home the following week than chance, but,
-- Week 1 HOH winners are 2.5x more likely to win the game than to go home in week 2. 
 
 # Calculate odds of finishing within the final 4 for winners of the first / second HOH
 - Cannot calculate odds of winning becauese no one who has won week 2 HOH has gone one to win! 
