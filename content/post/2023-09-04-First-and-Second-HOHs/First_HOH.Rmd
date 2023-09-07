@@ -144,7 +144,7 @@ Second_HOH_graph
 - Winning the second HOH may be associated with negative game outcomes overall. 
 
 # Plot week 1 HOH winner's outcomes in BBUS as a histogram: 
-```{r}
+```{r, fig.cap="Winners of the second HOH competition "}
 data <- second_HOH_data %>%
   group_by(Place) %>%
   mutate(num_dum  = 1:length(Place))
