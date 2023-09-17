@@ -28,6 +28,7 @@ library(ggpubr)
 
 # Graph where each first HOH placed on thir season of BBUS: 
 ```{r, fig.cap="Each week 1 HOH's final place on their season of BBUs. The starting point of the grey line reperesents the number of players on each season"}
+
 first_HOH_data <- read_csv("First_HOH.csv")
 
 a <- first_HOH_data %>%

@@ -21,6 +21,7 @@ knitr::opts_chunk$set(echo = FALSE,warning=FALSE,message=FALSE)
 # Load Packages
 library(tidyverse)
 library(ggpubr)
+library(reshape2)
 ```
 
 ```{r}
@@ -30,7 +31,11 @@ data <- read_csv("First_Nominee.csv")
 data$Sex <- as.factor(data$Sex)
 ```
 
-# Graph how far each surviving first week nominee made in on their season of BBUS: 
+Each season, at least one player survives the block in the first week. 
+
+- We wondered *how does being a surviving week 1 nominee affect game outcomes?* 
+
+# Step 1: Graph how far each surviving first week nominee made in on their season of BBUS: 
 ```{r, fig.cap="Data plotted as each seasons first nominee (y-axis) with that players place on their season represented on the x-axis. Peach points(left) represent the starting humber of players on each season. The length of the horizontal grey bars represents the number of weeks each surviving first nominee lasted in the game. Players are couloured by sex (male = blue, female = dusty pink)."}
 a <- ggplot(data, aes(x=Place,y=Season,colour=Sex))+
   geom_segment(aes(x=Place,xend=Number,y=Season,yend=Season),size=2,colour="#C7D0D7")+
@@ -59,7 +64,7 @@ a
 - More females than males have survived a nomination in the first week of BBUS (see below).
 
 # Plot number of male vs female surviving week 1 nominees:
-```{r}
+```{r, fig.cap="Bars represent the number of surviving week #1 nominees split by player's gender."}
 data %>%
   group_by(Sex) %>%
   summarise(n=n()) %>%
@@ -78,6 +83,101 @@ data %>%
        title="Surviving week 1 nominees on BBUS are overwhelmingly female",
        subtitle = "4.5x more females than males have survivied a nomination in the first week")
 ```
+
+## Key Insights: 
+
+- Many more females than males have survived being the surviving week 1 nominee. 
+
+### Questions arising: 
+
+- Have equal number of males / females been nominated during week #1? 
+
+- Do males go out week 1 more often than females? 
+
+- Does winning the veto (or having another player use their veto win) drive females' surviving week 1 nomination? 
+
+```{r}
+a <- data %>%
+  select(c("Season","Sex","Evictee_sex")) %>%
+  melt(id.vars=c("Season")) %>%
+  drop_na() %>%
+  mutate(variable = as.factor(variable)) %>%
+  mutate(value = as.factor(value)) %>%
+  group_by(value) %>%
+  summarise(
+    n=n()
+  ) %>%
+  ggplot(aes(x=value,y=n,colour=value,fill=value)) +
+  geom_bar(stat="identity",alpha=0.2)+
+  geom_text(aes(x=value,y=1,label=n))+
+  scale_colour_manual(values = c("#8B5B6E","#95A7B6"))+
+  scale_fill_manual(values=c("#8B5B6E","#95A7B6"))+
+  theme_classic()+
+  theme(legend.position = "none")+
+  theme(plot.title=element_text(hjust=0.5))+
+  labs(
+    x="",
+    y="Number of week 1 initial nominees",
+    title="Initial Noms involve more females than males"
+  )+
+  scale_x_discrete(labels=c("Female","Male"))
+
+b <- data %>%
+  select(c("Season","Sex","Evictee_sex")) %>%
+  melt(id.vars=c("Season")) %>%
+  drop_na() %>%
+  mutate(variable = as.factor(variable)) %>%
+  mutate(value = as.factor(value)) %>%
+  group_by(value) %>%
+  summarise(
+    n=n()
+  ) %>%
+  mutate(n=n/(34+18)*100) %>%
+  ggplot(aes(x="",y=n,colour=value,fill=value))+
+  geom_bar(stat = "identity",alpha=0.2)+
+  coord_polar("y", start=0)+
+  geom_text(aes(x="",y=n,label=c("65.4%","34.6%"))) +
+  scale_colour_manual(values = c("#8B5B6E","#95A7B6"))+
+  scale_fill_manual(values=c("#8B5B6E","#95A7B6"))+
+  theme_classic()+
+  theme(
+  axis.line = element_blank(),
+  axis.text.x = element_blank(),
+  axis.text.y = element_blank(),
+  axis.ticks = element_blank())+
+  labs(
+    x="",y=""
+  )+
+    theme(legend.position = "none")
+
+
+c <- ggarrange(a,b,
+          nrow=1,ncol=2,
+          labels=c("A","B"))
+c
+
+ggsave("panel_test.png",c,height=3,width=7)
+```
+
+# Calculate odds of staying after a week 1 nomination
+
+### Controlling for the number of males and females nominated overall. 
+
+```{r, echo=TRUE}
+
+female_week1_noms <- 34
+male_week1_noms <- 18
+
+female_week1_noms_survivors <- 18
+male_week1_noms_survivors <- 5 
+
+female_odds <- female_week1_noms_survivors / female_week1_noms
+female_odds
+
+male_odds <- male_week1_noms_survivors / male_week1_noms
+male_odds
+```
+
 
 # Plot the number of weeks surviving beyond their week 1 nomination as a historgram:
 ```{r}
